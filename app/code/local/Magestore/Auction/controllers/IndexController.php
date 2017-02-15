@@ -248,7 +248,7 @@ class Magestore_Auction_IndexController extends Mage_Core_Controller_Front_Actio
             return;
         }
 
-        if ($bid->getStatus == 6) { //complete bid
+        if ($bid->getStatus() == 6) { //complete bid
             $this->_redirect('*/*/customerbid', array());
             return;
         }

@@ -77,6 +77,14 @@ class Magestore_Auction_Block_Adminhtml_Productauction_Edit_Tab_Form extends Mag
             'disabled' => $disabled,
         ));
 
+        $fieldset->addField('fee_auction_order', 'text', array(
+            'label' => Mage::helper('auction')->__('Percentage Fee Order'),
+            'name' => 'fee_auction_order',
+            'required' => true,
+            'disabled' => $disabled,
+            'note' => Mage::helper('auction')->__('Default 0%'),
+        ));
+
         $fieldset->addField('start_date', 'date', array(
             'label' => Mage::helper('auction')->__('Start Date'),
             'class' => 'required-entry',

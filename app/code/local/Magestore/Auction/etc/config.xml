@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Magestore_Auction>
-            <version>2.2.0</version>
+            <version>2.2.1</version>
         </Magestore_Auction>
     </modules>
     <frontend>
@@ -154,6 +154,79 @@
         </events>
     </adminhtml>   
     <global>
+        <sales>
+            <quote>
+                <totals>
+                    <feeauction>
+                        <class>auction/sales_quote_address_total_feeauction</class>
+                        <!--<renderer>auction/checkout_totals_feeauction</renderer>-->
+                        <!--<admin_renderer>auction/adminhtml_sales_order_create_totals_feeauction</admin_renderer>-->
+                    </feeauction>
+                </totals>
+            </quote>
+            <order_invoice>
+                <totals>
+                    <feeauction>
+                        <class>auction/sales_order_total_invoice_feeauction</class>
+                    </feeauction>
+                </totals>
+            </order_invoice>
+            <order_creditmemo>
+                <totals>
+                    <feeauction>
+                        <class>auction/sales_order_total_creditmemo_feeauction</class>
+                    </feeauction>
+                </totals>
+            </order_creditmemo>
+        </sales>
+        <events>
+            <paypal_prepare_line_items>
+                <observers>
+                    <paypal_prepare_line_items>
+                        <class>auction/observer</class>
+                        <method>updatePaypalTotal</method>
+                    </paypal_prepare_line_items>
+                </observers>
+            </paypal_prepare_line_items>
+            <sales_order_invoice_save_after>
+                <observers>
+                    <sales_order_invoice_save_after>
+                        <class>auction/observer</class>
+                        <method>invoiceSaveAfter</method>
+                    </sales_order_invoice_save_after>
+                </observers>
+            </sales_order_invoice_save_after>
+            <sales_order_creditmemo_save_after>
+                <observers>
+                    <sales_order_creditmemo_save_after>
+                        <class>auction/observer</class>
+                        <method>creditmemoSaveAfter</method>
+                    </sales_order_creditmemo_save_after>
+                </observers>
+            </sales_order_creditmemo_save_after>
+        </events>
+        <fieldsets>
+            <sales_convert_quote_address>
+                <fee_amount>
+                    <to_order>*</to_order>
+                </fee_amount>
+                <base_fee_amount>
+                    <to_order>*</to_order>
+                </base_fee_amount>
+            </sales_convert_quote_address>
+        </fieldsets>
+        <pdf>
+            <totals>
+                <feeauction translate="title">
+                    <title>Fee Auction</title>
+                    <source_field>fee_amount</source_field>
+                    <font_size>7</font_size>
+                    <display_zero>0</display_zero>
+                    <sort_order>650</sort_order>
+                    <amount_prefix></amount_prefix>
+                </feeauction>
+            </totals>
+        </pdf>
         <models>
             <auction>
                 <class>Magestore_Auction_Model</class>
@@ -360,4 +433,11 @@
             </auction_autobid>
         </jobs>
     </crontab>
+    <default>
+        <sales>
+            <totals_sort>
+                <fee>15</fee>
+            </totals_sort>
+        </sales>
+    </default>
 </config>
