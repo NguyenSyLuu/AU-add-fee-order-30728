@@ -388,6 +388,14 @@ class Magestore_Auction_Model_Event {
                                 ->setProductauctionId($bid->getProductauctionId())
                                 ->setTransactionPrice($bid->getPrice())
                                 ->save();
+
+                        //send notification email
+                        $auction = Mage::getModel('auction/productauction')->load($bid->getProductAuctionId());
+                        $notification_email = $auction->getNotificationEmail();
+                        if(!empty($notification_email)){
+
+                        }
+
                     } catch (Exception $e) {
                         Mage::log($e->getMessage(), null, 'auction.log');
                     }

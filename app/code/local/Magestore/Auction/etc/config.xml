@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Magestore_Auction>
-            <version>2.2.1</version>
+            <version>2.2.3</version>
         </Magestore_Auction>
     </modules>
     <frontend>
@@ -159,9 +159,14 @@
                 <totals>
                     <feeauction>
                         <class>auction/sales_quote_address_total_feeauction</class>
-                        <!--<renderer>auction/checkout_totals_feeauction</renderer>-->
-                        <!--<admin_renderer>auction/adminhtml_sales_order_create_totals_feeauction</admin_renderer>-->
+                        <after>tax,rewardpoints_label</after>
+                        <before>grand_total</before>
                     </feeauction>
+                    <feeauctionbeforetax>
+                        <class>auction/sales_quote_address_total_feeauctionbeforetax</class>
+                        <after>wee,discount,subtotal</after>
+                        <before>tax</before>
+                    </feeauctionbeforetax>
                 </totals>
             </quote>
             <order_invoice>
@@ -385,7 +390,39 @@
                     </magestore_auction_observer>
                 </observers>				
             </catalog_product_save_after>
-        </events>		
+        </events>
+        <sales>
+            <!--<quote>-->
+                <!--<totals>-->
+                    <!--<auction>-->
+                        <!--<class>auction/total_quote_feeaftertax</class>-->
+                        <!--<after>tax,rewardpoints_label</after>-->
+                        <!--<before>grand_total</before>-->
+                    <!--</auction>-->
+                    <!--<feeauction>-->
+                        <!--<class>auction/total_quote_feeauctionbeforetax</class>-->
+                        <!--<after>wee,discount,subtotal</after>-->
+                        <!--<before>tax</before>-->
+                    <!--</feeauction>-->
+                <!--</totals>-->
+            <!--</quote>-->
+            <!--<order_invoice>-->
+                <!--<totals>-->
+                    <!--<auction>-->
+                        <!--<class>auction/total_order_invoice_feeauction</class>-->
+                        <!--<after>wee,discount,tax,tax_subtotal,grand_total</after>-->
+                    <!--</auction>-->
+                <!--</totals>-->
+            <!--</order_invoice>-->
+            <!--<order_creditmemo>-->
+                <!--<totals>-->
+                    <!--<auction>-->
+                        <!--<class>aution/total_order_creditmemo_feeauction</class>-->
+                        <!--<after>wee,discount,tax,tax_subtotal,grand_total</after>-->
+                    <!--</auction>-->
+                <!--</totals>-->
+            <!--</order_creditmemo>-->
+        </sales>
     </global>
     <default>
         <auction>
@@ -439,5 +476,6 @@
                 <fee>15</fee>
             </totals_sort>
         </sales>
+
     </default>
 </config>

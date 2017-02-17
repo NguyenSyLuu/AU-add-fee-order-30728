@@ -1,6 +1,6 @@
 <?php
 
-class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauction extends Mage_Sales_Model_Quote_Address_Total_Abstract
+class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauctionbeforetax extends Mage_Sales_Model_Quote_Address_Total_Abstract
 {
     protected $_code = 'fee';
 
@@ -8,7 +8,7 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauction extends Mage_
      * Collect fee address amount
      *
      * @param Mage_Sales_Model_Quote_Address $address
-     * @return Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauction
+     * @return Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauctionbeforetax
      */
     public function collect(Mage_Sales_Model_Quote_Address $address)
     {
@@ -20,7 +20,6 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauction extends Mage_
             return $this;
         }
         $quote = $address->getQuote();
-        Zend_Debug::dump("11111111111");
         $items = $quote->getAllItems();
         foreach ($items as $item) {
             $bidId = $item->getOptionByCode('bid_id');
@@ -28,30 +27,26 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauction extends Mage_
                 continue;
             }
         }
-        Zend_Debug::dump("2222222");
 
-        if (Mage::getStoreConfig('auction/general/fee_auction', $quote->getStoreId()) == 0) {
+        if (Mage::getStoreConfig('auction/general/fee_auction', $quote->getStoreId()) == 1) {
             return $this;
         }
-        Zend_Debug::dump("33333333333");
-
-//        if (!$quote->isVirtual() && $address->getAddressType() == 'billing') {
-//            return $this;
-//        }
-//        if ($quote->isVirtual() && $address->getAddressType() == 'shipping') {
-//            return $this;
-//        }
+        if (!$quote->isVirtual() && $address->getAddressType() == 'billing') {
+            return $this;
+        }
+        if ($quote->isVirtual() && $address->getAddressType() == 'shipping') {
+            return $this;
+        }
         if (Magestore_Auction_Model_Feeauction::canApply($address)) {
             $exist_amount = $quote->getFeeAmount();
-
             $fee = Magestore_Auction_Model_Feeauction::getFee();
             $balance = $fee - $exist_amount;
             $address->setFeeAmount($balance);
             $address->setBaseFeeAmount($balance);
             $quote->setFeeAmount($balance);
-//            $tax_amount = $quote->getShippingAddress()->getData('tax_amount');
-            $address->setGrandTotal($address->getGrandTotal() + $address->getFeeAmount());
-            $address->setBaseGrandTotal($address->getBaseGrandTotal() + $address->getBaseFeeAmount());
+            $tax_amount = $quote->getShippingAddress()->getData('tax_amount');
+            $address->setGrandTotal($address->getGrandTotal() + $address->getFeeAmount() + $tax_amount);
+            $address->setBaseGrandTotal($address->getBaseGrandTotal() + $address->getBaseFeeAmount() + $tax_amount);
 //            Zend_Debug::dump($address->debug());
             $address->save();
         }
@@ -63,19 +58,19 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauction extends Mage_
      * Add fee information to address
      *
      * @param Mage_Sales_Model_Quote_Address $address
-     * @return Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauction
+     * @return Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauctionbeforetax
      */
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
         $amount = $address->getFeeAmount();
 //        Zend_Debug::dump($address->debug());
-        if (Mage::getStoreConfig('auction/general/fee_auction', $address->getStoreId()) == 0) {
+        if (Mage::getStoreConfig('auction/general/fee_auction', $address->getStoreId()) == 1) {
             return $this;
         }
         if ($amount > 0) {
             $address->addTotal(array(
                 'code' => $this->getCode(),
-                'title' => Mage::helper('auction')->__('Fee Auction Product q-a after tax'),
+                'title' => Mage::helper('auction')->__('Fee Auction Product q-a before tax'),
                 'value' => $amount
             ));
             return $this;

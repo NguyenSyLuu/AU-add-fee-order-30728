@@ -43,7 +43,13 @@ class Magestore_Auction_Block_Adminhtml_Productauction_Edit_Tab_Form extends Mag
             'note' => '<a id="view_auction_product" target="_blank" href="' . $this->getUrl('adminhtml/catalog_product/edit', array('id' => $data->getProductId())) . '">' . $this->__('View product information.') . '</a>
 							<input type="hidden" name="product_id" id="product_id" value="' . $data->getProductId() . '">',
         ));
-
+//        add by Leo
+        $fieldset->addField('notification_email', 'text', array(
+            'label' => Mage::helper('auction')->__('Email received sold notification'),
+            'name' => 'notification_email',
+            'disabled' => $disabled,
+        ));
+//        end add by Leo
         $fieldset->addField('init_price', 'text', array(
             'label' => Mage::helper('auction')->__('Starting Price'),
             'class' => 'required-entry',

@@ -33,6 +33,15 @@ class Magestore_Auction_Block_Sales_Order_Feeauction extends Mage_Core_Block_Tem
      */
     public function initTotals()
     {
+//        Zend_Debug::dump($this->getOrder()->debug());
+//        $_items = $this->getOrder()->getItemsCollection();
+//
+//        foreach ($_items as $item) {
+//            if ($item->getParentItem()) continue;
+//            //do something
+//            $bidId = $item->getOptionByCode('bid_id');
+//            Zend_Debug::dump($bidId->getValue());
+//        }
 //        if ((float) $this->getOrder()->getBaseFeeAmount()) {
             $source = $this->getSource();
             $value  = $source->getFeeAmount();

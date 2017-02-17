@@ -114,92 +114,49 @@
         </reference>
     </adminhtml_sales_order_invoice_new>
 
+    <adminhtml_sales_order_invoice_save>
+        <reference name="invoice_totals">
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="auction/sales/order/total.phtml" />
+        </reference>
+    </adminhtml_sales_order_invoice_save>
+
     <adminhtml_sales_order_invoice_print>
         <reference name="invoice_totals">
-            <block type="customercredit/sales_order_feeauction" />
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="auction/sales/order/total.phtml" />
         </reference>
     </adminhtml_sales_order_invoice_print>
 
-    <!--<adminhtml_sales_order_invoice_updateqty>-->
-        <!--<reference name="invoice_totals">-->
-            <!--<block type="adminhtml/sales_order_totals_item" name="fee" template="auction/sales/order/total.phtml" />-->
-        <!--</reference>-->
-    <!--</adminhtml_sales_order_invoice_updateqty>-->
-
-    <!--<adminhtml_sales_order_invoice_view>-->
-        <!--<reference name="invoice_totals">-->
-            <!--<block type="adminhtml/sales_order_totals_item" name="fee" template="auction/sales/order/total.phtml" />-->
-        <!--</reference>-->
-    <!--</adminhtml_sales_order_invoice_view>-->
-
-    <!--<adminhtml_sales_order_creditmemo_new>-->
-        <!--<reference name="creditmemo_totals">-->
-            <!--<block type="adminhtml/sales_order_totals_item" name="fee" template="auction/sales/order/total.phtml" />-->
-        <!--</reference>-->
-    <!--</adminhtml_sales_order_creditmemo_new>-->
-
-    <!--<adminhtml_sales_order_creditmemo_updateqty>-->
-        <!--<reference name="creditmemo_totals">-->
-            <!--<block type="adminhtml/sales_order_totals_item" name="fee" template="auction/sales/order/total.phtml" />-->
-        <!--</reference>-->
-    <!--</adminhtml_sales_order_creditmemo_updateqty>-->
-
-    <!--<adminhtml_sales_order_creditmemo_view>-->
-        <!--<reference name="creditmemo_totals">-->
-            <!--<block type="adminhtml/sales_order_totals_item" name="fee.refunded" template="auction/sales/order/refunded.phtml">-->
-                <!--<action method="setDisplayArea"><area>footer</area></action>-->
-            <!--</block>-->
-        <!--</reference>-->
-    <!--</adminhtml_sales_order_creditmemo_view>-->
-<!--sdsdsd-->
-
-    <sales_order_view>
-        <reference name="order_totals">
-            <block type="auction/sales_order_feeauction" />
-        </reference>
-    </sales_order_view>
-    <sales_order_print>
-        <reference name="order_totals">
-            <block type="auction/sales_order_feeauction" />
-        </reference>
-    </sales_order_print>
-    <sales_email_order_items>
-        <reference name="order_totals">
-            <block type="auction/sales_order_feeauction" />
-        </reference>
-    </sales_email_order_items>
-
-    <sales_order_invoice>
+    <adminhtml_sales_order_invoice_updateqty>
         <reference name="invoice_totals">
-            <block type="auction/sales_order_feeauction" />
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="auction/sales/order/total.phtml" />
         </reference>
-    </sales_order_invoice>
-    <sales_order_printinvoice>
-        <reference name="invoice_totals">
-            <block type="auction/sales_order_feeauction" />
-        </reference>
-    </sales_order_printinvoice>
-    <sales_email_order_invoice_items>
-        <reference name="invoice_totals">
-            <block type="auction/sales_order_feeauction" />
-        </reference>
-    </sales_email_order_invoice_items>
+    </adminhtml_sales_order_invoice_updateqty>
 
-    <sales_order_creditmemo>
-        <reference name="creditmemo_totals">
-            <block type="auction/sales_order_feeauction" />
+    <adminhtml_sales_order_invoice_view>
+        <reference name="invoice_totals">
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="auction/sales/order/total.phtml" />
         </reference>
-    </sales_order_creditmemo>
-    <sales_order_printcreditmemo>
+    </adminhtml_sales_order_invoice_view>
+
+    <adminhtml_sales_order_creditmemo_new>
         <reference name="creditmemo_totals">
-            <block type="auction/sales_order_feeauction" />
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="auction/sales/order/total.phtml" />
         </reference>
-    </sales_order_printcreditmemo>
-    <sales_email_order_creditmemo_items>
+    </adminhtml_sales_order_creditmemo_new>
+
+    <adminhtml_sales_order_creditmemo_updateqty>
         <reference name="creditmemo_totals">
-            <block type="auction/sales_order_feeauction" />
+            <block type="adminhtml/sales_order_totals_item" name="fee" template="auction/sales/order/total.phtml" />
         </reference>
-    </sales_email_order_creditmemo_items>
+    </adminhtml_sales_order_creditmemo_updateqty>
+
+    <adminhtml_sales_order_creditmemo_view>
+        <reference name="creditmemo_totals">
+            <block type="adminhtml/sales_order_totals_item" name="fee.refunded" template="auction/sales/order/refunded.phtml">
+                <action method="setDisplayArea"><area>footer</area></action>
+            </block>
+        </reference>
+    </adminhtml_sales_order_creditmemo_view>
 
     <!--end customize-->
 </layout>
