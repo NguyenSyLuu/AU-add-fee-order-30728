@@ -53,6 +53,16 @@
                             <show_in_store>1</show_in_store>
                             <comment>Show actual products price on auction listing page.</comment>
                         </show_price>
+                        <fee_auction>
+                            <label>Apply fee auction product</label>
+                            <source_model>auction/applytax</source_model>
+                            <frontend_type>select</frontend_type>
+                            <sort_order>21</sort_order>
+                            <show_in_default>1</show_in_default>
+                            <show_in_website>1</show_in_website>
+                            <show_in_store>1</show_in_store>
+                            <!--<comment>Show actual products price on auction listing page.</comment>-->
+                        </fee_auction>
                         <won_message translate="label">
                             <label>Winning Message</label>
                             <frontend_type>textarea</frontend_type>

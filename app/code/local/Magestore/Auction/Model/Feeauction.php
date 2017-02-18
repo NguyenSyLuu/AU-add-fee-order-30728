@@ -18,7 +18,6 @@ class Magestore_Auction_Model_Feeauction extends Varien_Object
         foreach ($items as $item) {
                 $i++;
                 $bidId = $item->getOptionByCode('bid_id');
-//                Zend_Debug::dump($bidId->getValue());
                 if ($bidId != null && $bidId->getValue() > 0) {
                     $bid = Mage::getModel('auction/auction')->load($bidId->getValue());
                     $auctionProduct = Mage::getModel('auction/productauction')->load($bid->getProductauctionId());

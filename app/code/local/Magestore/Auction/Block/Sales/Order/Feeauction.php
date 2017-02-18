@@ -48,7 +48,7 @@ class Magestore_Auction_Block_Sales_Order_Feeauction extends Mage_Core_Block_Tem
             $this->getParentBlock()->addTotal(new Varien_Object(array(
                 'code'   => 'fee',
                 'strong' => false,
-                'label'  => Mage::helper('auction')->__('Fee Auction bl-sa-or'),
+                'label'  => Mage::helper('auction')->__('Fee Auction Product'),
                 'value'  => $value
             )));
 //        }

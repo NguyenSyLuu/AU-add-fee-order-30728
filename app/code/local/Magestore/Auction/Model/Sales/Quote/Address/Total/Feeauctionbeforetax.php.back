@@ -44,6 +44,11 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauctionbeforetax exte
         if($feeAuction <= 0)
             return $this;
 
+        $baseDiscountTotal = 0;
+        $baseCustomercreditDiscount = 0;
+        $baseItemsPrice = 0;
+        $baseCustomercreditForShipping = 0;
+
         $store = Mage::app()->getStore();
         foreach ($address->getAllItems() as $item) {
             if ($item->getParentItemId())
@@ -51,7 +56,16 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauctionbeforetax exte
             if ($item->getHasChildren() && $item->isChildrenCalculated()) {
                 foreach ($item->getChildren() as $child) {
                     if(!$child->isDeleted() && $item->getOptionByCode('bid_id') != NULL) {
+                        if (Mage::helper('tax')->priceIncludesTax())
+                            $baseItemPrice = $child->getRowTotalInclTax() - $child->getBaseDiscountAmount() - $child->getMagestoreBaseDiscount();
+                        else
+                            $baseItemPrice = $child->getBaseRowTotal() - $child->getBaseDiscountAmount() - $child->getMagestoreBaseDiscount();
                         $itemFeeTax = $feeAuction;
+//                        $itemDiscount = Mage::app()->getStore()->convertPrice($itemBaseDiscount);
+//                        $child->setMagestoreBaseDiscount($child->getMagestoreBaseDiscount() + $itemBaseDiscount);
+//                        $child->setBaseCustomercreditDiscount($itemBaseDiscount)
+//                            ->setCustomercreditDiscount($itemDiscount);
+
                         $baseTaxableAmount = $child->getBaseTaxableAmount();
                         $taxableAmount = $child->getTaxableAmount();
                         $child->setBaseTaxableAmount($baseTaxableAmount + $itemFeeTax);
@@ -72,7 +86,15 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauctionbeforetax exte
                 }
             } else if ($item->getProduct()) {
                 if(!$item->isDeleted() && $item->getOptionByCode('bid_id') != NULL) {
+                    if (Mage::helper('tax')->priceIncludesTax())
+                        $baseItemPrice = $item->getRowTotalInclTax() - $item->getBaseDiscountAmount() - $item->getMagestoreBaseDiscount();
+                    else
+                        $baseItemPrice = $item->getBaseRowTotal() - $item->getBaseDiscountAmount() - $item->getMagestoreBaseDiscount();
                     $itemFeeTax = $feeAuction;
+//                    $itemDiscount = Mage::app()->getStore()->convertPrice($itemBaseDiscount);
+//                    $item->setMagestoreBaseDiscount($item->getMagestoreBaseDiscount() + $itemBaseDiscount);
+//                    $item->setBaseCustomercreditDiscount($itemBaseDiscount)
+//                        ->setCustomercreditDiscount($itemDiscount);
 
                     $baseTaxableAmount = $item->getBaseTaxableAmount();
                     $taxableAmount = $item->getTaxableAmount();
@@ -94,8 +116,16 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauctionbeforetax exte
         }
 
         //update address
+        $address->setBaseCustomercreditHiddenTax($this->_hiddentBaseDiscount);
+        $address->setCustomercreditHiddenTax($this->_hiddentDiscount);
+
+//        $address->setMagestoreBaseDiscount($address->getMagestoreBaseDiscount() + $baseTotalDiscount);
+
         $address->setGrandTotal($address->getGrandTotal() + $feeAuction + $this->_hiddentBaseDiscount);
         $address->setBaseGrandTotal($address->getBaseGrandTotal() + $feeAuction + $this->_hiddentDiscount);
+//        $address->setCustomercreditDiscount($customercreditDiscount);
+//        $address->setBaseCustomercreditDiscount($baseCustomercreditDiscount);
+//        Zend_Debug::dump($address->debug());die();
         return $this;
     }
 
@@ -108,13 +138,14 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauctionbeforetax exte
     public function fetch(Mage_Sales_Model_Quote_Address $address)
     {
         $amount = $address->getFeeAmount();
+//        Zend_Debug::dump($address->debug());
         if (Mage::getStoreConfig('auction/general/fee_auction', $address->getStoreId()) == 1) {
             return $this;
         }
         if ($amount > 0) {
             $address->addTotal(array(
                 'code' => $this->getCode(),
-                'title' => Mage::helper('auction')->__('Fee Auction Product'),
+                'title' => Mage::helper('auction')->__('Fee Auction Product q-a before tax'),
                 'value' => $amount
             ));
             return $this;
