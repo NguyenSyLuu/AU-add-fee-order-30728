@@ -27,12 +27,11 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauction extends Mage_
                 continue;
             }
         }
-        if (Mage::getStoreConfig('auction/general/fee_auction', $quote->getStoreId()) == 0) {
+        if (Mage::getStoreConfig('auction/general/fee_auction', $quote->getStoreId()) == 1) {
             return $this;
         }
         if (Magestore_Auction_Model_Feeauction::canApply($address)) {
             $exist_amount = $quote->getFeeAmount();
-            Zend_debug::dump($exist_amount);
             $fee = Magestore_Auction_Model_Feeauction::getFee();
             $balance = $fee - $exist_amount;
             $address->setFeeAmount($balance);

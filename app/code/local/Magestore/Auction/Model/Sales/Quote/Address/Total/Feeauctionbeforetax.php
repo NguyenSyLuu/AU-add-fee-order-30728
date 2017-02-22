@@ -27,7 +27,7 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauctionbeforetax exte
                 continue;
             }
         }
-        if (Mage::getStoreConfig('auction/general/fee_auction', $quote->getStoreId()) == 1) {
+        if (Mage::getStoreConfig('auction/general/fee_auction', $quote->getStoreId()) == 0) {
             return $this;
         }
         if (!$quote->isVirtual() && $address->getAddressType() == 'billing') {
@@ -94,6 +94,7 @@ class Magestore_Auction_Model_Sales_Quote_Address_Total_Feeauctionbeforetax exte
         }
 
         //update address
+        $address->setFeeAmount($feeAuction);
         $address->setGrandTotal($address->getGrandTotal() + $feeAuction + $this->_hiddentBaseDiscount);
         $address->setBaseGrandTotal($address->getBaseGrandTotal() + $feeAuction + $this->_hiddentDiscount);
         return $this;
